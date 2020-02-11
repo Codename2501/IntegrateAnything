@@ -1,0 +1,81 @@
+using System;
+//Integrate anything!!
+namespace IntegrateAnything
+{
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            _ = new IntegrateAnything();
+        }
+    }
+    public class Variable
+    {
+        public double fx;//Function
+        public double theta;//angle
+        public double qn, qn_i;//qn
+        public double ih;//Integral
+        public double dw;//delta a * cos(theta)
+        public double dh;//delta a * sin(theta)
+        public double m = 0.0;//begin value
+        public double n = 1.0;//end value
+        public double da = 1.0e-6;//delta a
+        public double integration;
+    }
+    class IntegrateAnything:Variable
+    {
+       
+        public IntegrateAnything()
+        {
+            Console.Write("\n\nFunction about n=qn[{0}] : Function = {1}\n", n, Function(n));
+            Console.Write("\n\n\nPlease Wait\n");
+            Integration();
+            Console.Write("\n\nIntegration about between n=0.0 to n=[qn: {0}] : Integration = {1}\n", qn_i, integration);
+            //Console.Write("\n\nsin(sin(x))={0}\n", -0.88 * Math.Cos(n) - 0.013 * Math.Cos(3.0 * n) - (-0.88 * Math.Cos(0.0) - 0.013 * Math.Cos(0.0)));
+        }
+
+        public void Integration()
+        {
+            fx = ih = dh = dw = 0.0;
+            for (qn = m; qn <= n;)
+            {
+                fx = Function(qn);
+                if (double.IsNaN(fx))
+                {
+                    fx = 0.0;//←Please put the number you like(好きな数を置いてください)
+                }
+                if (double.IsPositiveInfinity(fx))
+                {
+                    break;
+                }
+                if (double.IsNegativeInfinity(fx))
+                {
+                    break;
+                }
+                dw = da * Math.Sqrt(1.0 / (1.0 + fx * fx));
+                dh = da * fx * Math.Sqrt(1.0 / (1.0 + fx * fx));
+                //theta = Math.Atan(fx);
+                //dw = da * Math.Cos(theta);
+                //dh = da * Math.Sin(theta);
+                qn += dw;
+                ih += dh;
+                //Console.Write("Now Computing For Integration :theta: {0} qn: {1} ,fx: {2} ,dh: {3} ,Integration: {4}\n",theta, qn, fx,dh, ih);
+                Console.Write("Now Computing For Integration :dw: {0} qn: {1} ,fx: {2} ,dh: {3} ,Integration: {4}\n", dw, qn, fx, dh, ih);
+            }
+            qn_i = qn - dw;
+            integration = ih - dh;
+
+        }
+        public double Function(double x)
+        {
+            //Random rnd = new Random();
+            //return rnd.NextDouble();
+            //return Math.Log(Math.Log(Math.Log(Math.Log(x))));
+            //return (1.0 / Math.Log(1.0 - x)) / (1.0 / x);
+            //return  Math.Log(1.0-x)/ x;
+            //return Math.Sin(Math.Sin(x));
+            //return 1.0 / x;
+            return x * x;
+        }
+    }
+}
