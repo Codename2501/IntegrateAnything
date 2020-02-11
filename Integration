@@ -19,7 +19,7 @@ namespace IntegrateAnything
         public double dh;//delta a * sin(theta)
         public double m = 0.0;//begin value
         public double n = 1.0;//end value
-        public double da = 1.0e-6;//delta a
+        public double da = 1.0e-20;//delta a //If the calculation speed is slow, reduce the value of da.
         public double integration;
     }
     class IntegrateAnything:Variable
