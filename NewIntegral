@@ -1,0 +1,51 @@
+using System;
+
+namespace NewIntegral
+{
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            _ = new NewIntegral();
+        }
+    }
+    public class Variables
+    {
+        public double da,fx1,diff1,fx2,diff2,sin,cos,integral,x1,x2,sdiff1,sdiff2,tdiff1;
+    }
+    public class NewIntegral:Variables
+    {
+        public NewIntegral()
+        {
+            da = 1.0e-5;
+            
+            Console.WriteLine("\n\n");
+            for (x1=0.0; x1 < 1.0;)
+            {
+                fx2 = fx1;
+                fx1 = Function(x1);
+                cos = Math.Sqrt(1.0 / (1.0 + fx1 * fx1));
+                sin=fx1* Math.Sqrt(1.0 / (1.0 + fx1 * fx1));                
+                x2 = x1;
+                x1 += da * (sin+cos)/2.0;
+                diff2 = diff1;
+                diff1 = (fx1 - fx2) / (x1 - x2);
+                sdiff2 = sdiff1;
+                sdiff1 = (diff1 - diff2) / (x1 - x2);
+                tdiff1 = (sdiff1 - sdiff2) / (x1 / x2);
+                integral += da * (sin + cos) / 2.0 * fx1
+                    + Math.Pow(da * (sin + cos) / 2.0, 2.0) / 2.0 * diff1
+                    + Math.Pow(da * (sin + cos) / 2.0, 3.0) / 6.0 * sdiff1
+                    + Math.Pow(da * (sin + cos) / 2.0, 4.0) / 24.0 * tdiff1;
+                
+
+                Console.WriteLine("{0} {1} {2} {3}", sdiff1, integral, Function(x1)*x1/5.0, Function(x1)*x1/5.0 - integral);
+            }
+
+        }
+        public double Function(double x)
+        {
+            return x*x*x*x;
+        }
+    }
+}
